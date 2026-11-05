@@ -1,0 +1,15 @@
+services:
+  # Option 1: Standalone Django API Service (Free Tier)
+  - type: web
+    name: safehaul-backend-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn safehaul_backend.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: PYTHON_VERSION
+        value: 3.11.9
